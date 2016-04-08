@@ -2,6 +2,7 @@ from bokeh.plotting import figure
 from pandas import PeriodIndex
 
 import pandas as pd
+from bokeh.plotting import figure, output_file, show
 
 
 PANTONE_292 = (105, 179, 231)
@@ -78,3 +79,26 @@ def plot_prediction_point_estimate(series, predictor):
     p.yaxis.axis_line_width = 3
 
     return p
+
+
+
+def sample_out():
+
+    output_file("predict_layout.html")
+
+    p = figure(plot_width=400, plot_height=400)
+
+    # add a line renderer with a NaN
+    nan = float('nan')
+    p.line([1, 2, 3, nan, 4, 5], [6, 7, 2, 4, 4, 5], line_width=2)
+
+    return p
+
+
+
+
+
+
+
+
+
