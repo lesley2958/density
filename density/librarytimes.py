@@ -136,10 +136,56 @@ OPENING_TIME_SUNDAY = {
     'Uris/Watson Library': interval([1000,2300]),
 }
 
-OPENING_TIME = {
-	'Weekday': OPENING_TIME_WEEKDAY,
-	'Thursday':OPENING_TIME_THURSDAY,
-	'Friday': OPENING_TIME_FRIDAY,
-	'Saturday': OPENING_TIME_SATURDAY,
-	'Sunday': OPENING_TIME_SUNDAY,
-}
+OPENING_TIME = [OPENING_TIME_WEEKDAY,
+                OPENING_TIME_WEEKDAY,
+                OPENING_TIME_WEEKDAY,
+                OPENING_TIME_THURSDAY,
+                OPENING_TIME_FRIDAY,
+                OPENING_TIME_SATURDAY,
+                OPENING_TIME_SUNDAY,]
+
+
+def dict_for_time():
+    # get library opening times according to today's day in a week
+    today = datetime.datetime.today()
+    weekday = today.weekday()
+    library_times = OPENING_TIME[weekday - 1]
+
+    # get the current hour and minute in the format HHMM
+    current_time = datetime.datetime.now().hour * 100 + datetime.datetime.now().minute
+    
+    message = {}
+
+    for group_name in library_times.keys():
+        print (group_name)
+        print(library_times[group_name])
+        message[group_name] = get_opening_and_closing_time(current_time, library_times[group_name])
+
+    return message
+
+
+def get_opening_and_closing_time(current_time, interval):
+    # get closing time
+    if (current_time in interval):
+        close_hour = int (interval[0].sup / 100)
+        #if the library's closing hour goes beyond midnight
+        if (close_hour < 12): 
+            output = " Closes at " + str(close_hour) + "AM"
+        #if the library closes before midnight
+        else:
+            
+            output = " Closes at " + str(close_hour - 12) + "PM"
+
+    # get opening time 
+    else:
+        if (len(interval) == 2):
+            open_hour = int (interval[1].sup / 100)
+        else:
+            open_hour = int (interval[0].sup / 100)
+
+        output = " Opens at " + str(open_hour) + "AM"
+
+    return output
+      
+
+
