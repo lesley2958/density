@@ -93,16 +93,7 @@ def predict_tomorrow(past_data):
         Dataframe containing predicted counts for 96 tomorrow's timepoints
     """
     # get time stats for today and tomorrow
-    this_day = datetime.datetime.today()
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
-    day_of_week_today = this_day.weekday()
-    day_of_week = tomorrow.weekday()
-    week_of_year = tomorrow.isocalendar()[1]
-    week_of_year_today = this_day.isocalendar()[1]
-
-    # find past data for the given day of the week
-    past_data = day_dict[week_of_year]
-    past_data = past_data[past_data['weekday'] == day_of_week]
     
     results, locs = [], []
     for group in np.unique(past_data["group_name"]):
