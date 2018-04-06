@@ -49,8 +49,6 @@ def db_to_pandas(cursor):
         parent_id: int64
         parent_name: category
         client_count: int64
-        week: int64
-        weekday: int64
         time_point: string
     index: DateTimeIndex -- dump_time
     Parameters
@@ -85,7 +83,7 @@ def predict_tomorrow(past_data):
     where the indexs are timestamps of the day and columns are locations
     Parameters
     ----------
-    day_dict: Dictionary
+    past_data: pandas.DataFrama
         a dictionary of dataframes of density data where the keys are days of the week
     Returns
     -------
