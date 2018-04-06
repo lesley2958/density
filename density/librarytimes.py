@@ -1,7 +1,10 @@
 import datetime
 from interval import interval, inf, imath
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a1144d729b1b33f3ceb4ee9b85837734f45bd26
 OPENING_TIME_WEEKDAY = {
     'Architectural and Fine Arts Library 1': interval([900, 2300]),
     'Architectural and Fine Arts Library 2': interval([900, 2300]),
@@ -192,3 +195,4 @@ def get_opening_and_closing_time(current_time, interval):
 
 print(datetime.datetime.now().hour * 100 + datetime.datetime.now().minute)
 print(dict_for_time())
+
