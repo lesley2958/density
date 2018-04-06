@@ -30,17 +30,6 @@ def create_all_buildings(df):
 
     return (script, div)
 
-
-def phony_data():
-
-    d = {'1' : pd.Series([1, 2, 3, 4, 5, 1], index=['lerner 1', 'lerner 2', 'lerner 3', 'butler 1', 'butler 2', 'butler 3']),
-        '2' : pd.Series([2, 4, 3, 4, 5, 2], index=['lerner 1', 'lerner 2', 'lerner 3', 'butler 1', 'butler 2', 'butler 3']),
-        '3' : pd.Series([3, 6, 3, 4, 5, 3], index=['lerner 1', 'lerner 2', 'lerner 3', 'butler 1', 'butler 2', 'butler 3']),
-        '4' : pd.Series([4, 8, 3, 4, 5, 4], index=['lerner 1', 'lerner 2', 'lerner 3', 'butler 1', 'butler 2', 'butler 3']), }
-
-    return pd.DataFrame(d)
-
-
 def create_prediction_plot(time, prediction):
     """
     Create prediction plot for one building  
@@ -73,5 +62,3 @@ def create_prediction_plot(time, prediction):
 
     #  return plot for one building
     return p
-
-# create_all_buildings(phony_data())
