@@ -1,4 +1,3 @@
-import pandas as pd
 from flask import g
 
 from .predict import db_to_pandas, predict_tomorrow
