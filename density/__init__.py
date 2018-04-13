@@ -4,16 +4,16 @@ import json
 import re
 import traceback
 
+from bokeh.resources import CDN
 from flask import Flask, g, jsonify, render_template, request
 import httplib2
 from oauth2client.client import flow_from_clientsecrets
 import psycopg2
-from bokeh.resources import CDN
 import psycopg2.extras
 import psycopg2.pool
 
 from . import db
-from . import graphics, librarytimes
+from . import graphics
 from .config import config, ISO8601Encoder
 from .data import FULL_CAP_DATA
 from .predict import db_to_pandas, predict_tomorrow
@@ -389,10 +389,9 @@ def capacity():
     cur_data = db.get_latest_data(g.cursor)
     last_updated = cur_data[0]['dump_time'].strftime("%B %d %Y, %I:%M %p")
     locations = annotate_fullness_percentage(cur_data)
-    #times = {'Lerner 1' : 1200, 'Lerner 2' : 1300}
-    times = librarytimes.dict_for_time()
     return render_template(
-        'capacity.html', locations=locations, last_updated=last_updated, times=times)
+        'capacity.html', locations=locations, last_updated=last_updated)
+
 
 @app.route('/map')
 def map():
