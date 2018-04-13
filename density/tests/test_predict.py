@@ -10,7 +10,7 @@ def test_predict(app):
 
 # test db_to_pandas
 # only need to test if the dataframe correctly converts to pd
-def test_db_to_pandas:
+def test_db_to_pandas():
 	data = db_to_pandas(g.cursor)
 
 	# assert dataframe has correct number of rows (buildings)
@@ -22,13 +22,14 @@ def test_db_to_pandas:
 
 # test predict_tomorrow
 # need to test if the calculations for averages are correct
-def test_predict_tomorrow:
-	data = db_to_pandas(g.cursor)        # loading data from current database connection
-	predictions = predict_tomorrow(data) # get predictions
+def test_predict_tomorrow():   
+	data = db_to_pandas(g.cursor)         # loading data from current database connection
+	predictions = predict_tomorrow(data)  # get predictions
 
 	# assert dataframe is in correct format
 	for index, row in predictions.iterrows():
-		assert 
+		print(index, row)
 
 	return 0;
 
+test_predict_tomorrow()
