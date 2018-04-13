@@ -2,7 +2,9 @@ import pandas as pd
 import numpy as np
 import datetime
 import psycopg2
-from matplotlib import pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 conn = psycopg2.connect(dbname="local_density", user="adicu", password="password")
 
@@ -90,6 +92,8 @@ def predict_tomorrow(past_data):
     pandas.DataFrame
         Dataframe containing predicted counts for 96 tomorrow's timepoints
     """
+    # get time stats for today and tomorrow
+    tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
     
     results, locs = [], []
     for group in np.unique(past_data["group_name"]):
