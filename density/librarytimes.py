@@ -1,5 +1,4 @@
 import datetime
-from interval import interval, inf, imath
 
 OPENING_TIME_WEEKDAY = {
     'Architectural and Fine Arts Library 1': [[900, 2300]],
