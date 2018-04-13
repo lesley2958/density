@@ -1,7 +1,6 @@
 import pandas as pd
 from flask import g
 
-from density import predict
 from .predict import db_to_pandas, predict_tomorrow
 
 def test_predict(app):
@@ -23,7 +22,7 @@ def test_db_to_pandas():
 # test predict_tomorrow
 # need to test if the calculations for averages are correct
 def test_predict_tomorrow():
-	# loading data from current database connection
+    # loading data from current database connection
     data = db_to_pandas(g.cursor)
     predictions = predict_tomorrow(data)  # get predictions
 
