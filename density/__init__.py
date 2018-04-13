@@ -8,18 +8,15 @@ from flask import Flask, g, jsonify, render_template, request
 import httplib2
 from oauth2client.client import flow_from_clientsecrets
 import psycopg2
+from bokeh.resources import CDN
 import psycopg2.extras
 import psycopg2.pool
-import pandas as pd
-from bokeh.resources import CDN
 
-from . import graphics
 from . import db
-from .predict import db_to_pandas, predict_tomorrow
+from . import graphics, librarytimes
 from .config import config, ISO8601Encoder
 from .data import FULL_CAP_DATA
-
-import time
+from .predict import db_to_pandas, predict_tomorrow
 
 
 app = Flask(__name__)
@@ -392,11 +389,10 @@ def capacity():
     cur_data = db.get_latest_data(g.cursor)
     last_updated = cur_data[0]['dump_time'].strftime("%B %d %Y, %I:%M %p")
     locations = annotate_fullness_percentage(cur_data)
-    times = {'Lerner 1' : 1200, 'Lerner 2' : 1300}
-    #times = get_opening_times()
+    #times = {'Lerner 1' : 1200, 'Lerner 2' : 1300}
+    times = librarytimes.dict_for_time()
     return render_template(
         'capacity.html', locations=locations, last_updated=last_updated, times=times)
-
 
 @app.route('/map')
 def map():
@@ -409,11 +405,13 @@ def map():
 
 @app.route('/predict')
 def predict():
-    data = db_to_pandas(g.cursor)  # loading data from current database connection
-    tmrw_pred =  predict_tomorrow(data)
+    # loading data from current database connection
+    data = db_to_pandas(g.cursor)
+    tmrw_pred = predict_tomorrow(data)
 
     script, divs = graphics.create_all_buildings(tmrw_pred.transpose())
-    return render_template('predict.html',divs=divs,script=script, css_script=CDN.render_js())
+    return render_template('predict.html', divs=divs,
+                           script=script, css_script=CDN.render_js())
 
 
 @app.route('/upload', methods=['POST'])
