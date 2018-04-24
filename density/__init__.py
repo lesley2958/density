@@ -12,7 +12,7 @@ import psycopg2
 import psycopg2.extras
 import psycopg2.pool
 
-from . import db
+from . import db, librarytimes
 from . import graphics
 from .config import config, ISO8601Encoder
 from .data import FULL_CAP_DATA
