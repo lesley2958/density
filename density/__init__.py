@@ -388,7 +388,8 @@ def get_window_building_data(start_time, end_time, parent_id):
 @authorization_required
 def get_all_building_json():
     data = db_to_pandas(g.cursor)
-    result = api_all_buildings (data)
+    tmrw_pred = predict_tomorrow(data)
+    result = api_all_buildings (tmrw_pred)
 
     return jsonify(result)
 
