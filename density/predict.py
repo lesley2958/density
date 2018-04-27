@@ -1,12 +1,13 @@
-import pandas as pd
-import numpy as np
 import datetime
 import psycopg2
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-conn = psycopg2.connect(dbname="local_density", user="adicu", password="password")
+
+import numpy as np
+import pandas as pd
+
 
 SELECT = """
     SELECT d.client_count, d.dump_time,
@@ -65,48 +66,64 @@ def db_to_pandas(cursor):
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
     day_of_week = tomorrow.weekday()
     week_of_year = tomorrow.isocalendar()[1]
-    query = " WHERE extract(WEEK from d.dump_time) = {} AND extract(DOW from d.dump_time) = {}".format(week_of_year, day_of_week)
+    query = ' WHERE extract(WEEK from d.dump_time) = ' + \
+            '{} AND extract(DOW from d.dump_time) = '.format(week_of_year) + \
+            '{}'.format(day_of_week)
+    print('\n' + query)
     cursor.execute(SELECT + query)
     raw_data = cursor.fetchall()
     df = pd.DataFrame(raw_data) \
-    	   .set_index("dump_time") \
-    	   .assign(group_name=lambda df: df["group_name"].astype('category'),
+           .set_index("dump_time") \
+           .assign(group_name=lambda df: df["group_name"].astype('category'),
                    parent_id=lambda df: df["parent_id"].astype('category'))
 
     time_points = zip(df.index.hour, df.index.minute)
     time_points = ["{}:{}".format(x[0], x[1]) for x in time_points]
-    df["time_point"] = time_points # get time of the day (HH:mm) for a given timestamp
+    # get time of the day (HH:mm) for a given timestamp
+    df["time_point"] = time_points
 
     return df
 
 
 def predict_tomorrow(past_data):
-    """Return a dataframes of predicted counts for tomorrow 
+    """Return a dataframes of predicted counts for tomorrow
     where the indexs are timestamps of the day and columns are locations
     Parameters
     ----------
     past_data: pandas.DataFrama
+<<<<<<< HEAD
         a dictionary of dataframes of density data where the keys are days of the week
+=======
+        a dictionary of dataframes of density data where the keys are
+        days of the week
+>>>>>>> master
     Returns
     -------
     pandas.DataFrame
         Dataframe containing predicted counts for 96 tomorrow's timepoints
     """
+<<<<<<< HEAD
     # get time stats for today and tomorrow
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
     
+=======
+
+>>>>>>> master
     results, locs = [], []
     for group in np.unique(past_data["group_name"]):
         locs.append(group)
         group_data = past_data[past_data["group_name"] == group]
         group_data = group_data[["client_count", "time_point"]]
-        group_result = group_data.groupby("time_point").mean()  # average counts by time for each location
-        group_result = np.divide(group_result, FULL_CAP_DATA[group])  # convert capacity count to percentage
+
+        # average counts by time for each location
+        group_result = group_data.groupby("time_point").mean()
+        # convert capacity count to percentage
+        group_result = np.divide(group_result, FULL_CAP_DATA[group])
         results.append(group_result.transpose())
     result = pd.concat(results)  # combine the data for all locations
     result.index = locs
-    result = result.transpose()  # make time points indexes and locations columns
-    
+    result = result.transpose()  # time points indexes and locations columns
+
     old_indexes = result.index
     new_indexes = []
 
@@ -121,6 +138,5 @@ def predict_tomorrow(past_data):
 
     result.index = new_indexes
     result = result.sort_index()
-    
-    return result
 
+    return result

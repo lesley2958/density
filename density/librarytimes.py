@@ -166,20 +166,26 @@ def get_opening_time(current_time, interval):
         # if the library's closing hour goes beyond midnight
         if (len(interval) == 2):
             close_hour = int(interval[1][1] / 100)
+
             output = " (Closes at " + str(close_hour) + "AM)"
+
 
         # if the library closes before midnight
         else:
             close_hour = int(interval[0][1] / 100)
+
             output = " (Closes at " + str(close_hour - 12) + "PM)"
+
 
     # get opening time
     else:
         if (len(interval) == 0):
+
             output = " (Closed Today)"
         else:
             open_hour = int(interval[0][0] / 100)
             output = " (Opens at " + str(open_hour) + "AM)"
+
 
     return output
 

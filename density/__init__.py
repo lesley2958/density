@@ -15,6 +15,7 @@ import psycopg2.pool
 from . import db, librarytimes
 from . import graphics
 from . import predict_api
+
 from .config import config, ISO8601Encoder
 from .data import FULL_CAP_DATA
 from .predict import db_to_pandas, predict_tomorrow
