@@ -91,24 +91,19 @@ def predict_tomorrow(past_data):
     Parameters
     ----------
     past_data: pandas.DataFrama
-<<<<<<< HEAD
+
         a dictionary of dataframes of density data where the keys are days of the week
-=======
-        a dictionary of dataframes of density data where the keys are
-        days of the week
->>>>>>> master
+
     Returns
     -------
     pandas.DataFrame
         Dataframe containing predicted counts for 96 tomorrow's timepoints
     """
-<<<<<<< HEAD
+
     # get time stats for today and tomorrow
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
     
-=======
 
->>>>>>> master
     results, locs = [], []
     for group in np.unique(past_data["group_name"]):
         locs.append(group)
