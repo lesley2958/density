@@ -14,6 +14,7 @@ import psycopg2.pool
 
 from . import db, librarytimes
 from . import graphics
+from . import predict_api
 from .config import config, ISO8601Encoder
 from .data import FULL_CAP_DATA
 from .predict import db_to_pandas, predict_tomorrow
@@ -381,6 +382,15 @@ def get_window_building_data(start_time, end_time, parent_id):
         next_page_url = request.base_url + '?auth_token=' + request.args.get(
             'auth_token') + '&offset=' + str(new_offset)
     return jsonify(data=fetched_data, next_page=next_page_url)
+
+@app.route('/predict/api')
+@authorization_required
+def get_all_building_json():
+    data = db_to_pandas(g.cursor)
+    result = api_all_buildings (data)
+
+    return jsonify(result)
+
 
 
 @app.route('/')
